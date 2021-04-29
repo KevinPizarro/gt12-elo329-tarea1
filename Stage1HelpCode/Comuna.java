@@ -12,19 +12,25 @@ public class Comuna {
         person=null;
     }
     public double getWidth() {
-        return //??
+        return territory.getWidth(); //??
     }
     public double getHeight() {
-        return //?? Probando Commit
+        return territory.getHeight(); //??
     }
     public void setPerson(Individuo person){
-        //??
+        this.person = person;
     }
     public void computeNextState (double delta_t) {
         person.computeNextState(delta_t);
     }
     public void updateState () {
         person.updateState();
+    }
+    public String getState() {
+        return person.getState();
+    }
+    public static String getStateDescription() {
+        return Individuo.getStateDescription();
     }
     // include others methods as necessary
  }
