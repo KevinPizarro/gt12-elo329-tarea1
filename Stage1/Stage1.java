@@ -12,9 +12,7 @@ public class Stage1 {
             System.exit(-1);
         }
         Scanner s=new Scanner(new File(args[0]));
-        System.out.println("File: "+args[0]);
         double simulationDuration = s.nextDouble();
-        System.out.println("Simulation time: "+simulationDuration);
         s.nextLine();
         double comunaWidth = s.nextDouble();
         double comunaLength = s.nextDouble();
