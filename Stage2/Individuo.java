@@ -2,8 +2,10 @@ public class Individuo {
     private double x, y, speed, angle, deltaAngle;
     private double x_tPlusDelta, y_tPlusDelta;
     private Comuna comuna;
+    private State state; //estado del individuo (susceptible,infectado,recuperado)
+    private double rec_time; //tiempo de recuperación
 
-    public Individuo (Comuna comuna, double speed, double deltaAngle){
+    public Individuo (Comuna comuna, double speed, double deltaAngle,State state){
 	//??
         angle = Math.random()*2*Math.PI;
         x = Math.random()*comuna.getWidth();
@@ -11,6 +13,8 @@ public class Individuo {
         this.speed = speed;
         this.deltaAngle = deltaAngle; 
         this.comuna = comuna;
+        this.state =  state;
+        rec_time=0;
     }
     public static String getStateDescription(){
         return "x,\ty";
@@ -40,10 +44,30 @@ public class Individuo {
             angle = 2*Math.PI - angle;
             y_tPlusDelta=y+speed*Math.sin(angle)*delta_t;
         }
+        if (state==State.I){   //revisa si el indiviuo cumple las condiciones de recuperacion
+            if(delta_t>rec_time){
+                State.R;  //recuperado
+                rec_time=0;
+            }
+            else{rec_time-=delta_t}
+        }
+
 	//??
     }
     public void updateState(){
 	x = x_tPlusDelta;
     y = y_tPlusDelta;
     }
+
+    public void infect(double rec_time){ //infecta individuo
+        if(state==State.S){
+            state=State.I
+        }
+        this.rec_time=rec_time;
+    }
+
+}
+
+public enum State{
+    S,I, R             //S para susceptibles, I para infectados, R para recuperados
 }
