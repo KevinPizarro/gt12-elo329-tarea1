@@ -12,6 +12,7 @@ public class Individuo {
         this.deltaAngle = deltaAngle; 
         this.comuna = comuna;
     }
+
     public static String getStateDescription(){
         return "x,\ty";
     }
@@ -46,4 +47,7 @@ public class Individuo {
 	x = x_tPlusDelta;
     y = y_tPlusDelta;
     }
+
+    public void InfectarIndividuo(){
+    }//funcion hardcodeada.
 }
