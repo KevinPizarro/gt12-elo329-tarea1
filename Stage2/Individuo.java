@@ -45,11 +45,11 @@ public class Individuo {
             y_tPlusDelta=y+speed*Math.sin(angle)*delta_t;
         }
         if (state==State.I){   //revisa si el indiviuo cumple las condiciones de recuperacion
-            if(delta_t>rec_time){
+            if(0>=rec_time){
                 state = State.R;  //recuperado
                 rec_time=0;
             }
-            else{rec_time-=delta_t}
+            else{rec_time-=delta_t;}
         }
 
 	//??
@@ -61,13 +61,13 @@ public class Individuo {
 
     public void infect(double rec_time){ //infecta individuo
         if(state==State.S){
-            state=State.I
+            state=State.I;
         }
         this.rec_time=rec_time;
     }
 
 }
 
-public enum State{
-    S,I, R             //S para susceptibles, I para infectados, R para recuperados
+enum State{
+    S,I,R             //S para susceptibles, I para infectados, R para recuperados
 }
