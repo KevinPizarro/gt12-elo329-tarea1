@@ -1,5 +1,6 @@
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.math.*;
 
 public class Comuna {
     private Individuo person;
@@ -36,13 +37,18 @@ public class Comuna {
             }
         }
     }
-    public void computeNextState (double delta_t, double distancia) {
+    public void computeNextState (double delta_t, double distancia, double p0) {
         for (int i=0;i < personas.size();i++){
             for(int j=0; j< personas.size;j++){
                 if(personas.getState(i)==State.S && personas.getState(j)==State.I){
                     double e = Math.sqrt(Math.pow(personas.getX(i)-personas.getX(j),2)+Math.pow(personas.getY(i)-personas.getY(j),2));
                     if(e < distancia){
-                        personas.get(i).infect(rec_time);
+                        if(Math.random()<=p0)
+                        {
+                            personas.get(i).infect(rec_time);
+                        }
+
+
                     }
                 }
             }
