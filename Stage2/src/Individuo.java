@@ -14,6 +14,7 @@ public class Individuo {
         this.deltaAngle = deltaAngle;
         this.state =  State.S; //se inicializa como susceptible
         rec_time=0;
+        this.comuna = comuna;
     }
     public double getX(){return x;}
     public double getY(){return y;}

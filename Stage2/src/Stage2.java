@@ -12,7 +12,6 @@ public class Stage2 {
             System.exit(-1);
         }
         Scanner s=new Scanner(new File(args[0]));
-        System.out.println("File: "+args[0]);
         double simulationDuration = s.nextDouble();
         int Npeople = s.nextInt();
         int Iinfected = s.nextInt();

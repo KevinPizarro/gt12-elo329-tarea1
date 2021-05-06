@@ -82,8 +82,10 @@ public class Comuna {
                     sus++;
                     break;
             }
+            
         }
-        return(inf + ",\t" + rec + ",\t" + sus + '\n');
+        String s = inf + ",\t" + rec + ",\t" + sus;
+        return s;
     }
     // include others methods as necessary
  }
