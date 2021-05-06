@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.Locale;
 
 
-public class Stage2 {
+public class Stage3 {
     public static void main(String [] args) throws IOException {
         Locale.setDefault(new Locale("en", "US")); //Para asumir el punto como decimal
         if (args.length != 1) {
