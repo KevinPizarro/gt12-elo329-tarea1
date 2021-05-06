@@ -14,7 +14,9 @@ public class Stage2 {
         Scanner s=new Scanner(new File(args[0]));
         System.out.println("File: "+args[0]);
         double simulationDuration = s.nextDouble();
-        System.out.println("Simulation time: "+simulationDuration);
+        int Npeople = s.nextInt();
+        int Iinfected = s.nextInt();
+        double rec_Time = s.nextDouble();
         s.nextLine();
         double comunaWidth = s.nextDouble();
         double comunaLength = s.nextDouble();
@@ -22,11 +24,11 @@ public class Stage2 {
         double speed = s.nextDouble();
         double delta_t = s.nextDouble();
         double deltaAngle = s.nextDouble();
+        double d = s.nextDouble();
+        double p0 = s.nextDouble();
         double samplingTime = 1.0;  // 1 [s]
         Comuna comuna = new Comuna(comunaWidth, comunaLength);
-        Individuo person = new Individuo(comuna, speed, deltaAngle);
-        comuna.setPerson(person);
-        Simulador sim = new Simulador(System.out, comuna);
+        Simulador sim = new Simulador(System.out, comuna, Npeople, Iinfected, rec_Time, speed, deltaAngle, d, p0);
         sim.simulate(delta_t, simulationDuration,samplingTime);
     }
 }

@@ -7,35 +7,18 @@ public class Simulador {
     private PrintStream out;
 
     //private Simulador(){ }
-    public Simulador (PrintStream output, Comuna comuna){
+    public Simulador (PrintStream output, Comuna comuna){ //Constructor del simulador
         out=output;
         this.comuna = comuna;
     }
-    private void printStateDescription(){;
+    private void printStateDescription(){; //Método para imprimir el encabezado de la salida
         String s="time,\t"+Comuna.getStateDescription();
         out.println(s);
     }
-    /* private void printState(double t){
+    private void printState(double t){ //Método para imprimir la posición del individuo
         String s = t + ",\t";
         s+= comuna.getState();
         out.println(s);
-    } */
-    public void printxt(String s){
-        File file = new File("salida.csv");
-        try {
-            file.createNewFile();
-        }
-        catch (Exception e){
-            e.getStackTrace();
-        }
-        try {
-            FileWriter output = new FileWriter("salida.csv");
-        output.write(s);
-        output.close();
-        }
-        catch (Exception e){
-            e.getStackTrace();
-        }
     }
     /**
      * @param delta_t time step
@@ -44,16 +27,14 @@ public class Simulador {
      */
     public void simulate (double delta_t, double endTime, double samplingTime) {  // simulate time passing
         double t=0;
-        String s = "";
         printStateDescription();
-        s = t + ",\t" + comuna.getState() + '\n';
         while (t<endTime) {
             for(double nextStop=t+samplingTime; t<nextStop; t+=delta_t) {
                 comuna.computeNextState(delta_t); // compute its next state based on current global state
                 comuna.updateState();            // update its state
             }
-            s += t + ",\t" + comuna.getState() + '\n';
+            printState(t);
         }
-        printxt(s);
+        
     }
 }
