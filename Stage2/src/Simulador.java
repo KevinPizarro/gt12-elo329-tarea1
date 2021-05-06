@@ -18,8 +18,9 @@ import java.util.ArrayList;
 public class Simulador {
     private Comuna comuna;
     private PrintStream out;
-    private ArrayList<Individuo> individuosTotales;//Cambiar estado de I individuos del total
     private int initialInfected;
+    private int totalPerson;
+    private int rec_time;
 
     /**
      * Constructor con 2 parámetros. Asume una lista vacía y infectados iniciales 0.
@@ -30,7 +31,8 @@ public class Simulador {
         out=output;
         this.comuna = comuna;
         this.initialInfected = 0;
-        this.individuosTotales = new ArrayList<Individuo>();
+        this.totalPerson = 0;
+        this.rec_time = 0;
     }
 
     /**
@@ -38,19 +40,22 @@ public class Simulador {
      * @param output Salida por consola.
      * @param comuna Setup del espacio inicial de la comuna.
      * @param initialInfected Cantidad de infectados iniciales.
-     * @param individuosTotales Cantidad de individuos totales.
+     * @param totalPerson Cantidad de individuos totales.
+     * @param rec_time Tiempo de recuperacion para los individuos.
      */
-    public Simulador (PrintStream output, Comuna comuna, int initialInfected, ArrayList<Individuo> individuosTotales){
+    public Simulador (PrintStream output, Comuna comuna, int initialInfected, int totalPerson, int rec_time){
         out=output;
         this.comuna = comuna;
         this.initialInfected = initialInfected;
-        this.individuosTotales = individuosTotales;
+        this.totalPerson = totalPerson;
+        this.rec_time = rec_time;
     }
 
     /**
      * Imprime por consola el encabezado time,x,y.
      */
     private void printStateDescription(){;
+        //TODO: Cambiar de getStateDescription() a nuevo método de comuna.
         String s="time,\t"+Comuna.getStateDescription();
         out.println(s);
     }
@@ -60,33 +65,10 @@ public class Simulador {
      * @param t Tiempo determinado.
      */
     private void printState(double t){
+        //TODO: Cambiar de getState() a nuevo método de comuna.
         String s = t + ",\t";
         s+= comuna.getState();
         out.println(s);
-    }
-
-    /**
-     * Creamos el archivo de salida.csv donde le escribimos un string s.
-     * @param s String que será escrito en el archivo de salida.
-     */
-    public void printxt(String s){
-        //TODO: Escribir el encabezado del csv.
-        File file = new File("salida.csv");
-        //Se utilizan bloques try-catch para capturar las excepciones.
-        try {
-            file.createNewFile();
-        }
-        catch (Exception e){
-            e.getStackTrace();
-        }
-        try {
-            FileWriter output = new FileWriter("salida.csv");
-            output.write(s);
-            output.close();
-        }
-        catch (Exception e){
-            e.getStackTrace();
-        }
     }
 
     /**
@@ -97,33 +79,19 @@ public class Simulador {
      */
     public void simulate (double delta_t, double endTime, double samplingTime) {  // simulate time passing
         double t = 0;
-        String s = "";
         printStateDescription();
-        s = t + ",\t" + comuna.getState() + '\n';
-
-        if (initialInfected <= individuosTotales.size()){
-            for (int i = 0; i < initialInfected ; i++) {
-                individuosTotales.get(i).InfectarIndividuo();
-            }
-        }
-        else {
-            for (int i = 0; i < individuosTotales.size(); i++) {
-                individuosTotales.get(i).InfectarIndividuo();
-            }
-            out.println("Intentas infectar más personas de las existentes. Se han infectado el máximo posible");
-        }
-
+        //TODO: Llamar a comuna para que infecte
+        comuna.setPersons();
+        comuna.infectPersons(totalPerson, initialInfected, rec_time);
         /**
          * Mientras el tiempo actual sea menor al tiempo de termino de simulación, seguiremos computando estados siguientes.
          */
         while (t<endTime) {
-            //TODO: Hacer que comuna.computeNextState lo realice a el ArrayList completo.
             for(double nextStop=t+samplingTime; t<nextStop; t+=delta_t) {
                 comuna.computeNextState(delta_t); // compute its next state based on current global state
                 comuna.updateState();            // update its state
             }
-            s += t + ",\t" + comuna.getState() + '\n';
+            printState(t);
         }
-        printxt(s);
     }
 }
