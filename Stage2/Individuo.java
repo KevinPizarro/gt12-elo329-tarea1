@@ -7,21 +7,21 @@ public class Individuo {
 
     public Individuo (Comuna comuna, double speed, double deltaAngle){
 	//??
-        angle = Math.random()*2*Math.PI;
+        angle = Math.random()*2*Math.PI; //en radianes
         x = Math.random()*comuna.getWidth();
         y = Math.random()*comuna.getHeight();
         this.speed = speed;
         this.deltaAngle = deltaAngle; 
         this.comuna = comuna;
-        this.state =  State.S;
+        this.state =  State.S; //se inicializa como susceptible
         rec_time=0;
     }
     public static String getStateDescription(){
         return "x,\ty";
     }
-    public String getState() {
+    public String getPosition() {
         return x + ",\t" + y;
-    }
+    } //cambio de nombre
     public void computeNextState(double delta_t) {
         double r=Math.random();
         angle+= Math.floor(r*(2*deltaAngle+1)-deltaAngle); //se suma un valor aleatorio entre -deltaAngle y +deltaAngle
@@ -45,11 +45,11 @@ public class Individuo {
             y_tPlusDelta=y+speed*Math.sin(angle)*delta_t;
         }
         if (state==State.I){   //revisa si el indiviuo cumple las condiciones de recuperacion
-            if(0>=rec_time){
+            rec_time-=delta_t;
+            if(0>=rec_time) {
                 state = State.R;  //recuperado
-                rec_time=0;
+                rec_time = 0;
             }
-            else{rec_time-=delta_t;}
         }
 
 	//??
@@ -66,6 +66,9 @@ public class Individuo {
         this.rec_time=rec_time;
     }
 
+    public State getState(){ //retorna estado de persona
+        return state;
+    }
 }
 
 enum State{
