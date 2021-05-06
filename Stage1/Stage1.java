@@ -12,6 +12,7 @@ public class Stage1 {
             System.exit(-1);
         }
         Scanner s=new Scanner(new File(args[0]));
+        //Leemos los parametros del archivo de configuración
         double simulationDuration = s.nextDouble();
         s.nextLine();
         double comunaWidth = s.nextDouble();
@@ -21,10 +22,10 @@ public class Stage1 {
         double delta_t = s.nextDouble();
         double deltaAngle = s.nextDouble();
         double samplingTime = 1.0;  // 1 [s]
-        Comuna comuna = new Comuna(comunaWidth, comunaLength);
-        Individuo person = new Individuo(comuna, speed, deltaAngle);
-        comuna.setPerson(person);
-        Simulador sim = new Simulador(System.out, comuna);
-        sim.simulate(delta_t, simulationDuration,samplingTime);
+        Comuna comuna = new Comuna(comunaWidth, comunaLength); //Creamos la comuna
+        Individuo person = new Individuo(comuna, speed, deltaAngle); //Creamos al individuo
+        comuna.setPerson(person); //Ubicamos al individuo en la comuna
+        Simulador sim = new Simulador(System.out, comuna); //Creamos el simulador
+        sim.simulate(delta_t, simulationDuration,samplingTime); //Inicializamos la simulación
     }
 }
