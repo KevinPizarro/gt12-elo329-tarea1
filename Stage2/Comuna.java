@@ -28,7 +28,7 @@ public class Comuna {
             {
                 Individuo p=new Individuo(comuna, speed, deltaAngle);
                 personas.add(p);
-                personas.get(i).infect();
+                personas.get(i).infect(time_recovery);
             }
             else
             {
@@ -37,7 +37,7 @@ public class Comuna {
             }
         }
     }
-    public void computeNextState (double delta_t, double distancia, double p0) {
+    public void computeNextState (double delta_t, double distancia, double p0, double rec_time) {
         for (int i=0;i < personas.size();i++){
             for(int j=0; j< personas.size;j++){
                 if(personas.getState(i)==State.S && personas.getState(j)==State.I){
@@ -47,7 +47,6 @@ public class Comuna {
                         {
                             personas.get(i).infect(rec_time);
                         }
-
 
                     }
                 }
