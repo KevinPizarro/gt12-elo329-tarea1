@@ -2,7 +2,7 @@ import javax.swing.plaf.synth.Region;
 import java.io.PrintStream;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
+
 
 /**
  Segunda Etapa: Individuos se mueven aleatoriamente y pueden contagiarse. Esta etapa es similar a la previa (sin vacuna,
@@ -18,10 +18,13 @@ import java.util.ArrayList;
 public class Simulador {
     private Comuna comuna;
     private PrintStream out;
-    private int initialInfected;
     private int totalPerson;
-    private int rec_time;
-
+    private int initialInfected;
+    private double rec_time;
+    private double speed;
+    private double delta_angle;
+    private double distance;
+    private double p0;
     /**
      * Constructor con 2 parámetros. Asume una lista vacía y infectados iniciales 0.
      * @param output Salida por consola.
@@ -32,6 +35,7 @@ public class Simulador {
         this.comuna = comuna;
         this.initialInfected = 0;
         this.totalPerson = 0;
+        this.distance = 0;
         this.rec_time = 0;
     }
 
@@ -43,12 +47,17 @@ public class Simulador {
      * @param totalPerson Cantidad de individuos totales.
      * @param rec_time Tiempo de recuperacion para los individuos.
      */
-    public Simulador (PrintStream output, Comuna comuna, int initialInfected, int totalPerson, int rec_time){
+    public Simulador (PrintStream output, Comuna comuna, int totalPerson, int initialInfected, double rec_time,
+                      double speed, double delta_angle, double distance, double p0){
         out=output;
         this.comuna = comuna;
-        this.initialInfected = initialInfected;
         this.totalPerson = totalPerson;
+        this.initialInfected = initialInfected;
         this.rec_time = rec_time;
+        this.speed = speed;
+        this.delta_angle = delta_angle;
+        this.distance = distance;
+        this.p0 = p0;
     }
 
     /**
@@ -81,14 +90,13 @@ public class Simulador {
         double t = 0;
         printStateDescription();
         //TODO: Llamar a comuna para que infecte
-        comuna.setPersons();
-        comuna.infectPersons(totalPerson, initialInfected, rec_time);
+        comuna.setPersons(totalPerson, rec_time, initialInfected, comuna, speed, delta_angle);
         /**
          * Mientras el tiempo actual sea menor al tiempo de termino de simulación, seguiremos computando estados siguientes.
          */
         while (t<endTime) {
             for(double nextStop=t+samplingTime; t<nextStop; t+=delta_t) {
-                comuna.computeNextState(delta_t); // compute its next state based on current global state
+                comuna.computeNextState(delta_t, distance, p0, rec_time); // compute its next state based on current global state
                 comuna.updateState();            // update its state
             }
             printState(t);
