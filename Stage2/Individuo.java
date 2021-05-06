@@ -1,7 +1,6 @@
 public class Individuo {
     private double x, y, speed, angle, deltaAngle;
     private double x_tPlusDelta, y_tPlusDelta;
-    private Comuna comuna;
     private State state; //estado del individuo (susceptible,infectado,recuperado)
     private double rec_time; //tiempo de recuperación
 
@@ -11,8 +10,7 @@ public class Individuo {
         x = Math.random()*comuna.getWidth();
         y = Math.random()*comuna.getHeight();
         this.speed = speed;
-        this.deltaAngle = deltaAngle; 
-        this.comuna = comuna;
+        this.deltaAngle = deltaAngle;
         this.state =  State.S; //se inicializa como susceptible
         rec_time=0;
     }
@@ -22,6 +20,8 @@ public class Individuo {
     public String getPosition() {
         return x + ",\t" + y;
     } //cambio de nombre
+    public double getX{return x;}
+    public double getY(return y;)
     public void computeNextState(double delta_t) {
         double r=Math.random();
         angle+= Math.floor(r*(2*deltaAngle+1)-deltaAngle); //se suma un valor aleatorio entre -deltaAngle y +deltaAngle
