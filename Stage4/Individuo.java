@@ -1,3 +1,6 @@
+/**
+ * Genera individuos para analisis
+ */
 public class Individuo {
     private double x, y, speed, angle, deltaAngle;
     private double x_tPlusDelta, y_tPlusDelta;
@@ -6,6 +9,12 @@ public class Individuo {
     private Comuna comuna;
     private boolean mask;
 
+    /**
+     * Constructor de la clase individuo
+     * @param comuna corresponde a la comuna en donde se va a ubicar
+     * @param speed corresponde a la velocidad de la persona en metros segundo cuadrado
+     * @param deltaAngle corresponde a la diferencia máx. del ángulo en radianes
+     */
     public Individuo (Comuna comuna, double speed, double deltaAngle){
 	//??
         angle = Math.random()*2*Math.PI; //en radianes
@@ -18,7 +27,15 @@ public class Individuo {
         this.comuna = comuna;
         this.mask = false;
     }
+
+    /**
+     * metodo para agregar una mascara al individuo
+     */
     public void putmask(){this.mask = true;}
+
+    /**
+     * @return true si el individuo tiene máscara y false en caso contrario
+     */
     public boolean getmask(){
         if(mask){
             return true;
@@ -27,8 +44,21 @@ public class Individuo {
             return false;
         }
     }
+
+    /**
+     * @return el valor de x
+     */
     public double getX(){return x;}
+
+    /**
+     * @return el valor de y
+     */
     public double getY(){return y;}
+
+    /**
+     * metodo para calcular el nuevo estado del individuo
+     * @param delta_t  corresponde a la diferncia de tiempo entre estados
+     */
     public void computeNextState(double delta_t) {
         double r=Math.random();
         angle+= Math.floor(r*(2*deltaAngle+1)-deltaAngle); //se suma un valor aleatorio entre -deltaAngle y +deltaAngle
@@ -59,13 +89,21 @@ public class Individuo {
             }
         }
 
-	//??
+
     }
+
+    /**
+     * metodo para actualizar posición
+     */
     public void updateState(){
 	x = x_tPlusDelta;
     y = y_tPlusDelta;
     }
 
+    /**
+     * metodo para cambiar el estado del inviduo a infectado
+     * @param rec_time corresponde al tiempo de recuperación dado
+     */
     public void infect(double rec_time){ //infecta individuo
         if(state==State.S){
             state=State.I;
@@ -73,17 +111,26 @@ public class Individuo {
         this.rec_time=rec_time;
     }
 
+    /**
+     * metodo para cambiar el estado del inviduo a vacunado
+     */
     public void vaccine(){
         if(state == State.S){
             state = State.V;
         }
     }
 
+    /**
+     * @return el estado de la persona (S,I,R)
+     */
     public State getState(){ //retorna estado de persona
         return state;
     }
 }
 
+/**
+ * Corresponde a los estados del individuo (S para susceptibles, I para infectados, R para recuperados)
+ */
 enum State{
     S,I,R,V             //S para susceptibles, I para infectados, R para recuperados
 }
