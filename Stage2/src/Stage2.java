@@ -23,6 +23,7 @@ public class Stage2 {
         double speed = s.nextDouble();
         double delta_t = s.nextDouble();
         double deltaAngle = s.nextDouble();
+        s.nextLine();
         double d = s.nextDouble();
         double p0 = s.nextDouble();
         double samplingTime = 1.0;  // 1 [s]
