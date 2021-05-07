@@ -2,7 +2,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Locale;
-
+/**
+ * En la clase Stage2, se abre el archivo de configuración, y se leen los parametros a utilizar en la simulación, 
+ * los cuales se entregan a la clase comuna y la clase simulador
+ */
 
 public class Stage2 {
     public static void main(String [] args) throws IOException {
