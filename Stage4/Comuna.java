@@ -1,7 +1,6 @@
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.awt.*;
-import javax.swing.*;
+
 public class Comuna {
     private Rectangle2D territory; // Alternatively: double width, length;
     private ArrayList<Individuo> personas;
@@ -59,26 +58,6 @@ public class Comuna {
 
     }
 
-    public class LinesRectsOvals extends JFrame {
-
-        // set window's title bar String and dimensions
-        public LinesRectsOvals()
-        {
-        super( "Drawing lines, rectangles and ovals" );
-        setSize( 1000, 1000 );
-        setVisible( true );
-        }
-        // display various lines, rectangles and ovals
-        public void paint( Graphics g ){
-            super.paint( g ); // call superclass's paint method
-            g.setColor( Color.RED );
-            g.drawRect( 100, 100, 500, 500 );
-            for(int i = 0; i < vacunatorios.size(); i++ ){
-                g.setColor( Color.BLUE );
-                g.drawRect( 100+(int)vacunatorios.get(i).getX(), 100+(int)vacunatorios.get(i).getY(), 100, 100 );        
-            }
-        } // end method paint
-    }
     public boolean intervac(Rectangle2D nuevo){
         for(int i = 0; i < vacunatorios.size(); i++){
             if(nuevo.intersects(vacunatorios.get(i))){
