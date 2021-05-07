@@ -4,6 +4,7 @@ public class Individuo {
     private State state; //estado del individuo (susceptible,infectado,recuperado)
     private double rec_time; //tiempo de recuperación
     private Comuna comuna;
+    private boolean mask;
 
     public Individuo (Comuna comuna, double speed, double deltaAngle){
 	//??
@@ -15,6 +16,16 @@ public class Individuo {
         this.state =  State.S; //se inicializa como susceptible
         rec_time=0;
         this.comuna = comuna;
+        this.mask = false;
+    }
+    public void putmask(){this.mask = true;}
+    public boolean getmask(){
+        if(mask){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     public double getX(){return x;}
     public double getY(){return y;}
