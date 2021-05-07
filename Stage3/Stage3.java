@@ -8,7 +8,7 @@ public class Stage3 {
     public static void main(String [] args) throws IOException {
         Locale.setDefault(new Locale("en", "US")); //Para asumir el punto como decimal
         if (args.length != 1) {
-            System.out.println("Usage: java Stage1Main <configurationFile.txt>");
+            System.out.println("Usage: java Stage3 Main <configurationFile.txt>");
             System.exit(-1);
         }
         Scanner s=new Scanner(new File(args[0]));
@@ -23,11 +23,15 @@ public class Stage3 {
         double speed = s.nextDouble();
         double delta_t = s.nextDouble();
         double deltaAngle = s.nextDouble();
+        s.nextLine();
         double d = s.nextDouble();
+        double m = s.nextDouble();
         double p0 = s.nextDouble();
+        double p1 = s.nextDouble();
+        double p2 = s.nextDouble();
         double samplingTime = 1.0;  // 1 [s]
         Comuna comuna = new Comuna(comunaWidth, comunaLength);
-        Simulador sim = new Simulador(System.out, comuna, Npeople, Iinfected, rec_Time, speed, deltaAngle, d, p0);
+        Simulador sim = new Simulador(System.out, comuna, Npeople, Iinfected, rec_Time, speed, deltaAngle, d, m, p0, p1, p2);
         sim.simulate(delta_t, simulationDuration,samplingTime);
     }
 }
