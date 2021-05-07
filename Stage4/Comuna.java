@@ -58,10 +58,7 @@ public class Comuna {
         }
 
     }
-    public void MostrarCuadro(){
-        LinesRectsOvals application = new LinesRectsOvals();
-        application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE); 
-    }
+
     public class LinesRectsOvals extends JFrame {
 
         // set window's title bar String and dimensions
