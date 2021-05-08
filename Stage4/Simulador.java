@@ -1,14 +1,5 @@
 import java.io.PrintStream;
 
-
-/*
- Cuarta Etapa: En esta última etapa se espera alcanzar la funcionalidad descrita en la sección 1. Utilice un archivo
-de entrada con el formato señalado allí y genere un archivo de salida como el indicado en sección 1.
-Usando una planilla de cálculo, manipule los datos para generar la gráfica pedida la cual usted
-incluirá en su documentación de la tarea.
-
-*/
-
 /**
  * Clase simulador, es aquél que da inicio a la ejecución de la simulación, controla los tiempos, salidas y el setup.
  */
@@ -28,6 +19,7 @@ public class Simulador {
     private int numVac;
     private double vacsize;
     private double vactime;
+
     /**
      * Constructor con 2 parámetros. Asume una lista vacía y infectados iniciales 0.
      * @param output Salida por consola.
@@ -46,12 +38,12 @@ public class Simulador {
      * Constructor con 12 parámetros. Se le entrega un setup a seguir para individuos iniciales.
      * @param output Salida por consola.
      * @param comuna Setup del espacio inicial de la comuna.
-     * @param initialInfected Cantidad de infectados iniciales.
      * @param totalPerson Cantidad de individuos totales.
+     * @param initialInfected Cantidad de infectados iniciales.
      * @param rec_time Tiempo de recuperacion para los individuos.
      * @param speed Velocidad de los individuos
-     * @param deltaAngle diferencial del angulo
-     * @param distancia Distancia entre individuos para infectarse
+     * @param delta_angle diferencial del angulo
+     * @param distance Distancia entre individuos para infectarse
      * @param m Fraccion de individuos con mascarilla
      * @param p0 Probabilidad de contagio dos individuos sin mascarilla
      * @param p1 Probabilidad de contagio un individuo sin mascarilla
@@ -79,6 +71,14 @@ public class Simulador {
     }
 
     /**
+     * Método para imprimir el encabezado del archivo de salida.
+     */
+    private void printStateDescription(){
+        String s="Time, Vac, Inf, Rec, Sus";
+        out.println(s);
+    }
+
+    /**
      * Imprime por consola el estado de un individuo en t,x,y.
      * @param t Tiempo determinado.
      */
@@ -94,19 +94,16 @@ public class Simulador {
      * @param endTime simulation time
      * @param samplingTime  time between printing states to not use delta_t that would generate too many lines.
      */
-    public void simulate (double delta_t, double endTime, double samplingTime) {  // simulate time passing
+    public void simulate (double delta_t, double endTime, double samplingTime) {
         double t = 0;
         comuna.setvac(numVac, vacsize);
         comuna.setPerson(totalPerson, rec_time, initialInfected, comuna, speed, delta_angle, m);
-        /**
-         * Mientras el tiempo actual sea menor al tiempo de termino de simulación, seguiremos computando estados siguientes.
-         */
-        System.out.println("Time, Vac, Inf, Rec, Sus");
+        printStateDescription();
         printState(t);
         while (t<endTime) {
             for(double nextStop=t+samplingTime; t<nextStop; t+=delta_t) {
-                comuna.computeNextState(delta_t, distance, p0, p1, p2, rec_time, vactime, t); // compute its next state based on current global state
-                comuna.updateState();            // update its state
+                comuna.computeNextState(delta_t, distance, p0, p1, p2, rec_time, vactime, t);
+                comuna.updateState();
             }
             printState(t);
         }
