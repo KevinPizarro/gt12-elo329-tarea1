@@ -1,14 +1,5 @@
 import java.io.PrintStream;
 
-
-/*
- Tercera Etapa: Esta etapa modifica la forma como los individuos de pueden contagiarse dependiendo del uso de
-mascarilla. Haga los cambios en la lógica del programa de la etapa previa para reflejar este
-comportamiento.
-Como salida se espera un archivo de salida similar al indicado en la descripción general de la tarea,
-excepto que no hay columna V. 
-*/
-
 /**
  * Clase simulador, es aquél que da inicio a la ejecución de la simulación, controla los tiempos, salidas y el setup.
  */
@@ -25,34 +16,41 @@ public class Simulador {
     private double p0;
     private double p1;
     private double p2;
+
     /**
-     * Constructor con 2 parámetros. Asume una lista vacía y infectados iniciales 0.
+     * Constructor con 2 parámetros. Asume todos los demás parámetros privados en 0.
      * @param output Salida por consola.
      * @param comuna Setup del espacio inicial de la comuna.
      */
     public Simulador (PrintStream output, Comuna comuna){
         out=output;
         this.comuna = comuna;
-        this.initialInfected = 0;
         this.totalPerson = 0;
-        this.distance = 0;
+        this.initialInfected = 0;
         this.rec_time = 0;
+        this.speed = 0;
+        this.delta_angle = 0;
+        this.distance = 0;
+        this.m = 0;
+        this.p0 = 0;
+        this.p1 = 0;
+        this.p2 = 0;
     }
 
     /**
      * Constructor con 12 parámetros. Se le entrega un setup a seguir para individuos iniciales.
      * @param output Salida por consola.
      * @param comuna Setup del espacio inicial de la comuna.
-     * @param initialInfected Cantidad de infectados iniciales.
      * @param totalPerson Cantidad de individuos totales.
+     * @param initialInfected Cantidad de infectados iniciales.
      * @param rec_time Tiempo de recuperacion para los individuos.
-     * @param speed Velocidad de los individuos
-     * @param deltaAngle diferencial del angulo
-     * @param distancia Distancia entre individuos para infectarse
-     * @param m Fraccion de individuos con mascarilla
-     * @param p0 Probabilidad de contagio dos individuos sin mascarilla
-     * @param p1 Probabilidad de contagio un individuo sin mascarilla
-     * @param p2 Probabilidad de contagio dos individuos con mascarilla
+     * @param speed Velocidad de los individuos.
+     * @param delta_angle Diferencial del angulo.
+     * @param distance Distancia entre individuos para infectarse.
+     * @param m Fraccion de individuos con mascarilla.
+     * @param p0 Probabilidad de contagio dos individuos sin mascarilla.
+     * @param p1 Probabilidad de contagio un individuo sin mascarilla.
+     * @param p2 Probabilidad de contagio dos individuos con mascarilla.
      */
     public Simulador (PrintStream output, Comuna comuna, int totalPerson, int initialInfected, double rec_time, double speed, double delta_angle, double distance, double m, double p0, double p1, double p2){
         out=output;
@@ -67,6 +65,14 @@ public class Simulador {
         this.p0 = p0;
         this.p1 = p1;
         this.p2 = p2;
+    }
+
+    /**
+     * Método para imprimir el encabezado del archivo de salida.
+     */
+    private void printStateDescription(){
+        String s="Time, Inf, Rec, Sus";
+        out.println(s);
     }
 
     /**
@@ -85,18 +91,15 @@ public class Simulador {
      * @param endTime simulation time
      * @param samplingTime  time between printing states to not use delta_t that would generate too many lines.
      */
-    public void simulate (double delta_t, double endTime, double samplingTime) {  // simulate time passing
+    public void simulate (double delta_t, double endTime, double samplingTime) {
         double t = 0;
         comuna.setPerson(totalPerson, rec_time, initialInfected, comuna, speed, delta_angle, m);
-        /**
-         * Mientras el tiempo actual sea menor al tiempo de termino de simulación, seguiremos computando estados siguientes.
-         */
-        System.out.println("Time, Inf, Rec, Sus");
+        printStateDescription();
         printState(t);
         while (t<endTime) {
             for(double nextStop=t+samplingTime; t<nextStop; t+=delta_t) {
-                comuna.computeNextState(delta_t, distance, p0, p1, p2, rec_time); // compute its next state based on current global state
-                comuna.updateState();            // update its state
+                comuna.computeNextState(delta_t, distance, p0, p1, p2, rec_time);
+                comuna.updateState();
             }
             printState(t);
         }
