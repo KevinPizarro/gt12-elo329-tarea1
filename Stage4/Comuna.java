@@ -1,24 +1,54 @@
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+/**
+ * La clase comuna se encarga de crear el arreglo de las personas y posicionarlas en la comuna, calcula el siguiente
+ * estados de los individuos, con esto se calcula cuando una persona se infecta. Tambien se encarga de crear el
+ * vacunatorio.
+ */
 public class Comuna {
     private Rectangle2D territory; // Alternatively: double width, length;
     private ArrayList<Individuo> personas;
     private ArrayList<Rectangle2D.Double> vacunatorios;
 
+    /**
+     * Si no se ingresan parametros se crea un rectangulo con medidas fijas que corresponde a la comuna.
+     */
     public Comuna(){
         territory = new Rectangle2D.Double(0, 0, 1000, 1000); // 1000x1000 m²;
     }
+
+    /**
+     * Se crea la comuna como un rectangulo con los parametros ingresados.
+     * @param width Ancho de la comuna
+     * @param length Largo de la comuna
+     */
     public Comuna(double width, double length){
         territory = new Rectangle2D.Double(0,0, width, length);
 
     }
+
+    /**
+     *
+     * @return Retorna el ancho de la comuna.
+     */
     public double getWidth() {
         return territory.getWidth(); //??
     }
+
+    /**
+     *
+     * @return Retorna el alto de la comuna.
+     */
     public double getHeight() {
         return territory.getHeight(); //??
     }
+
+    /**
+     * Metodo que crea los vacunatorios en el territorio.
+     * @param numVac Cantidad de vacunatorios en la comuna.
+     * @param vacsize Tamaño de los vacunatorios.
+     */
     public void setvac(int numVac, double vacsize){
         vacunatorios = new ArrayList<Rectangle2D.Double>(numVac);
         double x;
@@ -38,8 +68,8 @@ public class Comuna {
             else{
                 for(int j = 0; j < i; j++){
                     Rectangle2D vac = new Rectangle2D.Double(x,y,vacsize,vacsize);
-                    if(existvac(x, y) || intervac(vac)){
-                        while(existvac(x, y) || intervac(vac)){
+                    if(intervac(vac)){
+                        while(intervac(vac)){
                             x = Math.random()*territory.getWidth();
                             y = Math.random()*territory.getHeight();
                             if(x >= territory.getWidth() - vacsize){
@@ -58,6 +88,11 @@ public class Comuna {
 
     }
 
+    /**
+     * Se identifica si un nuevo vacunatorio se intersecta con uno ya existente.
+     * @param nuevo El nuevo vacunatorio
+     * @return
+     */
     public boolean intervac(Rectangle2D nuevo){
         for(int i = 0; i < vacunatorios.size(); i++){
             if(nuevo.intersects(vacunatorios.get(i))){
@@ -66,6 +101,13 @@ public class Comuna {
         }
         return false;
     }
+
+    /**
+     * Se identifica si exite un vacunatorio en las coordenadas dada.
+     * @param x
+     * @param y
+     * @return Se retorna true enn caso de existir vacunatorio.
+     */
     public boolean existvac(double x, double y){
         for(int i = 0; i < vacunatorios.size(); i++){
             if(vacunatorios.get(i).contains(x,y)){
@@ -74,6 +116,18 @@ public class Comuna {
         }
         return false;
     }
+
+    /**
+     * Se crea el array de las personas existentes en las comunas. Se inicializa la cantidad correspondientes de
+     * personas infectadas y personas con máscarillas.
+     * @param n_ind El número de individuos
+     * @param time_recovery El tiempo de recuperación de los indivicuos.
+     * @param n_inf El número máximo de infectados permitidos.
+     * @param comuna La comuna en la que vive el individuo.
+     * @param speed La velocidad de desplzamiento del individuo.
+     * @param deltaAngle La variación del angulo sobre el que se va a desplazar el individuo aleatoriamente.
+     * @param m El número máximo de personas con máscarilla.
+     */
     public void setPerson(int n_ind, double time_recovery, int n_inf, Comuna comuna, double speed, double deltaAngle, double m){
         personas = new ArrayList<Individuo>(n_ind);
         for(int i=0;i<n_ind;i++){
@@ -94,6 +148,18 @@ public class Comuna {
             }
         }
     }
+
+    /**
+     * Se cácula el siguiente estado de todas las personas en la comuna identificando las personas que se infectan.
+     * @param delta_t La variación de tiempo existente entre cada calculo de estado.
+     * @param distancia La distancia a la cual una persona se puede infectar con otra.
+     * @param p0 Probabilidad de infección cuando ninguna de las dos personas usa mascarillas.
+     * @param p1 Probabilidad de infección cuando solo una persona usa mascarillas.
+     * @param p2 Probabilidad de infección cuando las dos personas usan mascarillas.
+     * @param rec_time Tiempo de recuperación.
+     * @param vactime Tiempo desde empezada la simulación en la que se activan los vacunatorios.
+     * @param t Tiempo de ejecución de la simulación.
+     */
     public void computeNextState (double delta_t, double distancia, double p0, double p1, double p2, double rec_time, double vactime, double t) {
         for (int i=0;i < personas.size();i++){
             for(int j=0; j< personas.size();j++){
@@ -127,6 +193,10 @@ public class Comuna {
         }
         
     }
+
+    /**
+     * Se actualiza el estados de todas las personas.
+     */
     public void updateState () {
 
         for(int i=0; i<personas.size();i++) {
@@ -134,6 +204,10 @@ public class Comuna {
         }
     }
 
+    /**
+     *
+     * @return Se retorna la cantidad de recuperados, infectados, susceptibles y vacunados.
+     */
     public String getIndState()
     {
         int sus=0,inf=0,rec=0,vac=0;
