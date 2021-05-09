@@ -107,6 +107,5 @@ public class Simulador {
             }
             printState(t);
         }
-        comuna.MostrarCuadro();
     }
 }
