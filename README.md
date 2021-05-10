@@ -18,11 +18,13 @@ Configuracion.txt : Archivo el cual contiene los parametros de la simulación de
 		<Cant. de Vacunatorios> <Tamano de los Vac.> <Tiempo para empezar a Vacunar [s] >
 
  Para ejecutar cada etapa del programa se descarga la carpeta y se escribe en consola el siguiente comando:
+    make
+ Luego:
 	make run
 (asegurarse de estar en la misma carpeta)
 
  Posteriormente se escribe el comando:
 	make clean
-este limpia la basura generada al compilar.
+este elimina los .class generados al compilar.
 
 Se decide optar por la etapa Extra, se encuentra en la carpeta Extra
