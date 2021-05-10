@@ -50,23 +50,27 @@ public class Comuna {
      * @param vacsize Tamaño de los vacunatorios.
      */
     public void setvac(int numVac, double vacsize){
-        vacunatorios = new ArrayList<Rectangle2D.Double>(numVac);
         double x;
         double y;
-        for(int i = 0; i < numVac; i++){
-            x = Math.random()*territory.getWidth();
-            y = Math.random()*territory.getHeight();
-            if(x >= territory.getWidth() - vacsize){
-                x -= vacsize;
-            }
-            if(y >= territory.getHeight() - vacsize){
-                y -= vacsize;
-            }
-            if(i == 0){
-                vacunatorios.add(new Rectangle2D.Double(x, y, vacsize, vacsize));
-            }
-            else{
-                for(int j = 0; j < i; j++){
+        boolean flag = false;
+        int cont = 0;
+        do{ 
+            vacunatorios = new ArrayList<Rectangle2D.Double>(numVac);
+            cont = 0;
+            flag = false;
+            for(int i = 0; i < numVac; i++){
+                x = Math.random()*territory.getWidth();
+                y = Math.random()*territory.getHeight();
+                if(x >= territory.getWidth() - vacsize){
+                    x -= vacsize;
+                }
+                if(y >= territory.getHeight() - vacsize){
+                    y -= vacsize;
+                }
+                if(i == 0){
+                    vacunatorios.add(new Rectangle2D.Double(x, y, vacsize, vacsize));
+                }
+                else{
                     Rectangle2D vac = new Rectangle2D.Double(x,y,vacsize,vacsize);
                     if(intervac(vac)){
                         while(intervac(vac)){
@@ -79,13 +83,17 @@ public class Comuna {
                                 y -= vacsize;
                             }
                             vac.setRect(x, y, vacsize, vacsize);
+                            cont++;
+                            if (cont > 10){
+                                flag = true;
+                                break;
+                            }
                         }
                     }
+                    vacunatorios.add(new Rectangle2D.Double(x, y, vacsize, vacsize));
                 }
-                vacunatorios.add(new Rectangle2D.Double(x, y, vacsize, vacsize));
             }
-        }
-
+        } while (flag);
     }
 
     /**
